@@ -1,0 +1,72 @@
+generated: '2026-08-22'
+method: probed
+source: live GET probes of /.well-known/* on every host named in apis.yml
+hit_count: 0
+note: >-
+  Nothing is served. hellopediatrics.com is a WordPress site that returns a real 404 for
+  every /.well-known/ path probed. book.hellopediatrics.com is a client-rendered
+  single-page app (a white-labeled Mend telehealth deployment — the served HTML shell is
+  titled "Mend" and loads /963c6c0/assets/index-*.js) and answers HTTP 200 with that same
+  1,349-byte shell for EVERY path, including a deliberately nonsense control path, so none
+  of its 200s is a document. No WellKnown and no SecurityTxt pointer is emitted: this file
+  records an absence, not a presence.
+hosts:
+- host: https://hellopediatrics.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: https://book.hellopediatrics.com
+  soft_404_control:
+    path: /this-path-should-404-xyz
+    status: 200
+    bytes: 1349
+    content_type: text/html
+    verdict: catch-all SPA — every path returns the identical shell, so no 200 here counts
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: soft-404 SPA shell, byte-identical to the control probe — not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: soft-404 SPA shell, byte-identical to the control probe — not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: soft-404 SPA shell, byte-identical to the control probe — not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: soft-404 SPA shell, byte-identical to the control probe — not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    note: soft-404 SPA shell, byte-identical to the control probe — not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    note: soft-404 SPA shell, byte-identical to the control probe — not a document
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    note: soft-404 SPA shell, byte-identical to the control probe — not a document
